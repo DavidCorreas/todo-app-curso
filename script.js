@@ -1,19 +1,21 @@
-// script.js - Funcionalidad básica para la Todo App
 document.addEventListener('DOMContentLoaded', function() {
     const taskInput = document.getElementById('taskInput');
     const addTaskBtn = document.getElementById('addTaskBtn');
     const taskList = document.getElementById('taskList');
 
-    // Modificar script.js para añadir botón delete
+    function updateTaskCounter() {
+        const currentTaskCount = taskList.getElementsByTagName('li').length;
+        document.title = `Todo App (${currentTaskCount} tareas)`;
+    }
+    
     function addTask() {
         const taskText = taskInput.value.trim();
         
-        if (taskText === '') {
+        if (taskText === '') { // Validación original
             alert('Por favor, escribe una tarea');
             return;
         }
-
-        // Crear elemento de tarea con botón delete
+        
         const li = document.createElement('li');
         li.className = 'task-item';
         
@@ -25,24 +27,25 @@ document.addEventListener('DOMContentLoaded', function() {
         deleteBtn.className = 'delete-btn';
         deleteBtn.onclick = function() {
             li.remove();
+            updateTaskCounter(); // Actualizar contador al eliminar
         };
         
         li.appendChild(taskSpan);
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
         
+        updateTaskCounter(); // Actualizar contador al añadir
+        
         taskInput.value = '';
         taskInput.focus();
     }
 
-    // Event listeners
     addTaskBtn.addEventListener('click', addTask);
-    
     taskInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             addTask();
         }
     });
+    // Inicializar contador al cargar
+    updateTaskCounter();
 });
-
-
