@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const addTaskBtn = document.getElementById('addTaskBtn');
     const taskList = document.getElementById('taskList');
 
+    function updateTaskCounter() {
+        const currentTaskCount = taskList.getElementsByTagName('li').length;
+        document.title = `Todo App (${currentTaskCount} tareas)`;
+    }
+    
     function addTask() {
         const taskText = taskInput.value.trim();
         
@@ -12,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Crear elemento de tarea con botón delete
         const li = document.createElement('li');
         li.className = 'task-item';
         
@@ -23,11 +29,14 @@ document.addEventListener('DOMContentLoaded', function() {
         deleteBtn.className = 'delete-btn';
         deleteBtn.onclick = function() {
             li.remove();
+            updateTaskCounter(); // Actualizar contador al eliminar
         };
         
         li.appendChild(taskSpan);
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
+        
+        updateTaskCounter(); // Actualizar contador al añadir
         
         taskInput.value = '';
         taskInput.focus();
@@ -39,4 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
             addTask();
         }
     });
+    // Inicializar contador al cargar
+    updateTaskCounter();
 });
