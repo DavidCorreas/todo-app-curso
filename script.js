@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addTaskBtn = document.getElementById('addTaskBtn');
     const taskList = document.getElementById('taskList');
 
-    // Por ahora solo una función básica
+    // Modificar script.js para añadir botón delete
     function addTask() {
         const taskText = taskInput.value.trim();
         
@@ -13,15 +13,24 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Crear elemento de tarea
+        // Crear elemento de tarea con botón delete
         const li = document.createElement('li');
         li.className = 'task-item';
-        li.textContent = taskText;
         
-        // Añadir a la lista
+        const taskSpan = document.createElement('span');
+        taskSpan.textContent = taskText;
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '✕';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.onclick = function() {
+            li.remove();
+        };
+        
+        li.appendChild(taskSpan);
+        li.appendChild(deleteBtn);
         taskList.appendChild(li);
         
-        // Limpiar input
         taskInput.value = '';
         taskInput.focus();
     }
@@ -35,3 +44,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
