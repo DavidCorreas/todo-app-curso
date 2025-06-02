@@ -1,19 +1,17 @@
-// script.js - Funcionalidad básica para la Todo App
 document.addEventListener('DOMContentLoaded', function() {
     const taskInput = document.getElementById('taskInput');
     const addTaskBtn = document.getElementById('addTaskBtn');
     const taskList = document.getElementById('taskList');
 
-    // Modificar script.js para añadir botón delete
     function addTask() {
         const taskText = taskInput.value.trim();
         
-        if (taskText === '') {
-            alert('Por favor, escribe una tarea');
+        // Validación mejorada
+        if (taskText === '' || taskText.length < 3) {
+            alert('La tarea debe tener al menos 3 caracteres');
             return;
         }
 
-        // Crear elemento de tarea con botón delete
         const li = document.createElement('li');
         li.className = 'task-item';
         
@@ -35,14 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
         taskInput.focus();
     }
 
-    // Event listeners
     addTaskBtn.addEventListener('click', addTask);
-    
     taskInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             addTask();
         }
     });
 });
-
-
