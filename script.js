@@ -22,6 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const li = document.createElement('li');
         li.className = 'task-item';
         
+        // Create checkbox for task completion
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'task-checkbox';
+        checkbox.onclick = function() {
+            li.classList.toggle('completed', checkbox.checked);
+            saveTasks();
+            updateTasksVisibility();
+        };
+        
         const taskSpan = document.createElement('span');
         taskSpan.textContent = taskText;
         
@@ -36,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         deleteBtn.className = 'delete-btn';
         deleteBtn.onclick = function() {
             li.remove();
+            saveTasks();
             updateTaskCounter();
             updateTasksVisibility();
         };
@@ -43,10 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
         li.appendChild(taskSpan);
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
-        
         updateTaskCounter();
         updateTasksVisibility();
-        
+        saveTasks();
         taskInput.value = '';
         taskInput.focus();
     }
@@ -81,6 +91,85 @@ document.addEventListener('DOMContentLoaded', function() {
         updateTasksVisibility();
     }
 
+    // --- Persistencia localStorage ---
+    function isLocalStorageAvailable() {
+        try {
+            const test = '__test__';
+            localStorage.setItem(test, test);
+            localStorage.removeItem(test);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function getTasksFromDOM() {
+        const tasks = [];
+        const items = taskList.getElementsByTagName('li');
+        Array.from(items).forEach(li => {
+            const text = li.querySelector('.task-text')?.textContent || '';
+            const completed = li.classList.contains('completed');
+            tasks.push({ text, completed });
+        });
+        return tasks;
+    }
+
+    function saveTasks() {
+        if (!isLocalStorageAvailable()) return;
+        const tasks = getTasksFromDOM();
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+        if (!isLocalStorageAvailable()) return;
+        const data = localStorage.getItem('tasks');
+        if (!data) return;
+        try {
+            const tasks = JSON.parse(data);
+            tasks.forEach(task => {
+                addTaskFromStorage(task.text, task.completed);
+            });
+        } catch (e) {
+            // Si hay error, no hacer nada
+        }
+    }
+
+    function addTaskFromStorage(text, completed) {
+        const li = document.createElement('li');
+        li.className = 'task-item';
+        if (completed) li.classList.add('completed');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'task-checkbox';
+        checkbox.checked = completed;
+        checkbox.onclick = function() {
+            li.classList.toggle('completed', checkbox.checked);
+            saveTasks();
+            updateTasksVisibility();
+        };
+
+        const taskSpan = document.createElement('span');
+        taskSpan.textContent = text;
+        taskSpan.className = 'task-text';
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '✕';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.onclick = function() {
+            li.remove();
+            saveTasks();
+            updateTaskCounter();
+            updateTasksVisibility();
+        };
+
+        li.appendChild(checkbox);
+        li.appendChild(taskSpan);
+        li.appendChild(deleteBtn);
+        taskList.appendChild(li);
+        updateTaskCounter();
+    }
+
     addTaskBtn.addEventListener('click', addTask);
     taskInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
@@ -94,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initialize
+    loadTasks();
     updateTaskCounter();
     updateTasksVisibility();
 });
