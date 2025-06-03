@@ -121,8 +121,27 @@ h1 {
     background: #0056b3;
 }
 
-/* Add styles for completed tasks */
+/* Styles for task items and checkbox */
+.task-checkbox {
+    margin-right: 10px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: #007bff;
+}
+
+.task-text {
+    flex: 1;
+    cursor: default;
+}
+
+/* Styles for completed tasks */
 .task-item.completed {
-    opacity: 0.6;
+    opacity: 0.7;
+    border-left: 4px solid #28a745;
+}
+
+.task-item.completed .task-text {
     text-decoration: line-through;
+    color: #6c757d;
 }

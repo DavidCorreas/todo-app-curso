@@ -28,19 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
         checkbox.className = 'task-checkbox';
         checkbox.onclick = function() {
             li.classList.toggle('completed', checkbox.checked);
-            saveTasks();
             updateTasksVisibility();
+            saveTasks();
         };
         
         const taskSpan = document.createElement('span');
         taskSpan.textContent = taskText;
+        taskSpan.className = 'task-text';
         
-        // Add click handler for task completion
-        taskSpan.onclick = function() {
-            li.classList.toggle('completed');
-            updateTasksVisibility();
-        };
-
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = '✕';
         deleteBtn.className = 'delete-btn';
@@ -51,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateTasksVisibility();
         };
         
+        li.appendChild(checkbox);
         li.appendChild(taskSpan);
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
@@ -65,6 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const tasks = taskList.getElementsByTagName('li');
         Array.from(tasks).forEach(task => {
             const isCompleted = task.classList.contains('completed');
+            const checkbox = task.querySelector('.task-checkbox');
+            
+            // Ensure checkbox state matches completed class
+            if (checkbox) {
+                checkbox.checked = isCompleted;
+            }
             
             if (currentFilter === 'all') {
                 task.style.display = 'flex';
