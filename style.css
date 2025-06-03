@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 90vw;
     margin: 0 auto;
     background: white;
     border-radius: 10px;
@@ -20,10 +20,95 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
+/* Media queries para dispositivos móviles */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    #taskInput {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    #addTaskBtn {
+        padding: 14px 28px;
+        font-size: 16px;
+    }
+
+    .task-item {
+        padding: 14px;
+        margin: 10px 0;
+        font-size: 15px;
+    }
+
+    .delete-btn {
+        padding: 8px 16px;
+        font-size: 15px;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .task-checkbox {
+        width: 24px;
+        height: 24px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Media queries para tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 80vw;
+        padding: 25px;
+    }
+
+    #taskInput {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    #addTaskBtn {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+    .task-item {
+        padding: 12px;
+        margin: 8px 0;
+        font-size: 15px;
+    }
+
+    .delete-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .filters {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
 }
 
 .input-container {
