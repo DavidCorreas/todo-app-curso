@@ -184,6 +184,24 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', handleFilterClick);
     });
 
+    // script.js - Añadir al final del DOMContentLoaded
+    const toggleBtn = document.getElementById('toggleDarkModeBtn');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            // Opcional: Guardar preferencia en localStorage
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    }
+    // Opcional: Cargar preferencia al inicio
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
     // Initialize
     loadTasks();
     updateTaskCounter();
