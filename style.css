@@ -145,3 +145,15 @@ h1 {
     text-decoration: line-through;
     color: #6c757d;
 }
+
+body.dark-mode {
+    background: #333;
+    color: #f0f0f0;
+}
+body.dark-mode .container {
+    background: #444;
+    box-shadow: 0 2px 10px rgba(255,255,255,0.05);
+}
+body.dark-mode h1 {
+    color: #f0f0f0;
+}
